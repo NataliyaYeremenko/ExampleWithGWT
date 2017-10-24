@@ -1,0 +1,7 @@
+<module>
+  <inherits name="com.google.gwt.json.JSON" />
+  <inherits name="com.google.gwt.json.client.JSONParser" />
+  <inherits name="com.google.gwt.json.client.JSONArray" />
+  <entry-point class="ua.kharkiv.yeremenko.sofftapp.client.MyGWTApp" />
+  <source path="client" />
+</module>

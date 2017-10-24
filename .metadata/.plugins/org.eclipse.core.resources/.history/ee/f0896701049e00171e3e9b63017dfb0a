@@ -1,0 +1,5 @@
+package ua.kharkiv.yeremenko.sofftapp.client;
+
+public class ParseJSON {
+
+}

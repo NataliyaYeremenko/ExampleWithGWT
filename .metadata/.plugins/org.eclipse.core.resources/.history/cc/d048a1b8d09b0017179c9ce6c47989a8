@@ -1,0 +1,31 @@
+package ua.kharkiv.yeremenko.sofftapp.client;
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+
+public class MyGWTApp implements EntryPoint {
+	private VerticalPanel mainPanel = new VerticalPanel();
+	private HorizontalPanel addPanel = new HorizontalPanel();
+	private Button addImageButton = new Button("Get Image");
+		
+	public void onModuleLoad() {
+		addPanel.add(addImageButton);
+		mainPanel.add(addPanel);
+		RootPanel.get("getImage").add(mainPanel);
+	
+		addImageButton.addClickHandler(new ClickHandler() {
+		      public void onClick(ClickEvent event) {
+		        addImage(); 
+		      }
+		    });
+	}
+	
+	private void addImage() {
+		
+	}
+}

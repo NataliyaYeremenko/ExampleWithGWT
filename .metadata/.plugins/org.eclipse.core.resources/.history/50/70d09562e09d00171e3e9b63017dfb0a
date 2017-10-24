@@ -1,0 +1,62 @@
+package ua.kharkiv.yeremenko.sofftapp.client;
+
+import java.io.PrintWriter;
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JsonUtils;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+
+public class MyGWTApp implements EntryPoint {
+	private VerticalPanel mainPanel = new VerticalPanel();
+	private HorizontalPanel addPanel = new HorizontalPanel();
+	private Button addImageButton = new Button("Get Image");
+	private static final String JSON_URL = "https://api.nasa.gov/planetary/apod?api_key=NNKOjkoul8n1CH18TWA9gwngW1s1SmjESPjNoUFo";
+		
+	public void onModuleLoad() {
+		addPanel.add(addImageButton);
+		addPanel.addStyleName("addPanel");
+		mainPanel.add(addPanel);
+		RootPanel.get("getImage").add(mainPanel);
+	
+		addImageButton.addClickHandler(new ClickHandler() {
+		      public void onClick(ClickEvent event) {
+		        addImage(); 
+		      }
+		    });
+	}
+	
+	private void addImage() {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, JSON_URL);
+		builder.setHeader("Content-Type", "application/json");
+		try {
+			  Request request = builder.sendRequest(null, new RequestCallback() {
+			    public void onError(Request request, Throwable exception) {
+			    	System.out.println("Couldn't retrieve JSON");
+			    }
+
+			        public void onResponseReceived(Request request, Response response) {
+			      if (200 == response.getStatusCode()) {
+			    	System.out.println(response.getText()));
+			      } else {
+			    	  System.out.println("Couldn't retrieve JSON (" + response.getStatusText()
+			            + ")");
+			      }
+			    }
+			  });
+			} catch (RequestException e) {
+				System.out.println("Couldn't retrieve JSON");
+			}
+	}
+	
+}

@@ -1,0 +1,11 @@
+package ua.kharkiv.yeremenko.sofftapp.client;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class ParseJSON {
+	private static JSONObject jObject = null;
+	public static String parseInput(String input){
+		jObject = new JSONObject(jString);
+		return null;
+	}
+}

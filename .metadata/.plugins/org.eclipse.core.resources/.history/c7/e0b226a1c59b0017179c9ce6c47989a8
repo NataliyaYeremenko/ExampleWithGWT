@@ -1,0 +1,7 @@
+package ua.kharkiv.yeremenko.sofftapp.server;
+
+import HttpServlet;
+
+public class JsonStockData extends HttpServlet {
+
+}

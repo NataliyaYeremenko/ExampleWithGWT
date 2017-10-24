@@ -1,0 +1,68 @@
+package com.google.gwt.sample.mygwtapp.client;
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONParser;
+import com.google.gwt.json.client.JSONValue;
+
+public class MyGWTApp implements EntryPoint {
+	private VerticalPanel mainPanel = new VerticalPanel();
+	private HorizontalPanel addPanel = new HorizontalPanel();
+	private Button addImageButton = new Button("Get Image");
+	private static final String JSON_URL = "https://api.nasa.gov/planetary/apod?api_key=NNKOjkoul8n1CH18TWA9gwngW1s1SmjESPjNoUFo";
+	private String imageURL = new String();	
+	
+	public void onModuleLoad() {
+		final Image image = new Image();
+		addPanel.add(addImageButton);
+		addPanel.addStyleName("addPanel");
+		mainPanel.add(addPanel);
+		RootPanel.get("getImage").add(mainPanel);
+	
+		addImageButton.addClickHandler(new ClickHandler() {
+		   public void onClick(ClickEvent event) {
+		      image.setUrl(addImage()); 
+		      RootPanel.get("getImage").add(image);
+		   }
+		});
+	}
+	
+	private String addImage() {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, JSON_URL);
+		builder.setHeader("Content-Type", "application/json");
+		try {
+			builder.sendRequest(null, new RequestCallback() {
+				  public void onError(Request request, Throwable exception) {
+					  Window.alert("Couldn't retrieve JSON");
+				  }
+ 
+			      public void onResponseReceived(Request request, Response response) {
+			    	  if (200 == response.getStatusCode()) {
+			    		  JSONValue jsonValue = JSONParser.parseStrict(response.getText());
+			    		  String sb = jsonValue.isObject().get("url") .isString().stringValue();
+			    		  imageURL = sb.toString();
+			    	  } else {
+			    		  Window.alert("Couldn't retrieve JSON (" + response.getStatusText()
+			    		  + ")");
+			    	  }
+			      }
+			  });
+			} catch (RequestException e) {
+				Window.alert("Couldn't retrieve JSON");
+			}
+		return imageURL;
+	}
+	
+}

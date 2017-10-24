@@ -1,0 +1,69 @@
+package com.google.gwt.sample.mygwtapp.client;
+
+import java.util.Date;
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONParser;
+
+public class MyGWTApp implements EntryPoint {
+	private VerticalPanel mainPanel = new VerticalPanel();
+	private HorizontalPanel addPanel = new HorizontalPanel();
+	private Button addImageButton = new Button("Get Image");
+	private static final String JSON_URL = "https://api.nasa.gov/planetary/apod?api_key=NNKOjkoul8n1CH18TWA9gwngW1s1SmjESPjNoUFo";
+		
+	public void onModuleLoad() {
+		addPanel.add(addImageButton);
+		addPanel.addStyleName("addPanel");
+		mainPanel.add(addPanel);
+		RootPanel.get("getImage").add(mainPanel);
+	
+		addImageButton.addClickHandler(new ClickHandler() {
+		      public void onClick(ClickEvent event) {
+		        addImage(); 
+		      }
+		    });
+	}
+	
+	private void addImage() {
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, JSON_URL);
+		builder.setHeader("Content-Type", "application/json");
+		try {
+			Request response = builder.sendRequest(null, new RequestCallback() {
+				  public void onError(Request request, Throwable exception) {
+					  Window.alert("Couldn't retrieve JSON");
+				  }
+
+				  
+			      public void onResponseReceived(Request request, Response response) {
+			    	  if (200 == response.getStatusCode()) {
+			    		  //Window.alert(response.getText());
+			    		  JSONArray array = JSONParser.parseLenient("['date', 'explanation', 'hdurl', 'title', 'url']").isArray();
+			    		  String[] resultArray = new String[array.size()];
+			    		  for(int i = 0; i < array.size(); i++)
+			    		      resultArray[i] = array.get(i).isString().stringValue();
+			    		  Window.alert(resultArray[4]);
+			    	  } else {
+			    		  Window.alert("Couldn't retrieve JSON (" + response.getStatusText()
+			    		  + ")");
+			    	  }
+			      }
+			  });
+			} catch (RequestException e) {
+				Window.alert("Couldn't retrieve JSON");
+			}
+	}
+	
+}

@@ -1,0 +1,18 @@
+package ua.kharkiv.yeremenko.sofftapp.client;
+
+import java.util.Date;
+
+import com.google.gwt.core.client.JavaScriptObject;
+
+public class ImageData extends JavaScriptObject {
+	protected ImageData() {}                                             
+
+    // JSNI methods to get image data.
+
+	public final native Date getDate(); 
+	public final native String getExplanation();
+	public final native String getHdurl();
+	public final native String getTitle();
+	public final native String getUrl();
+
+}

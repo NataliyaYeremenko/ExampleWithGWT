@@ -1,0 +1,7 @@
+package ua.kharkiv.yeremenko.sofftapp.client;
+
+import JavaScriptObject;
+
+public class ImageData extends JavaScriptObject {
+
+}

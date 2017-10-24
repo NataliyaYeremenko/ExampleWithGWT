@@ -1,0 +1,37 @@
+package ua.kharkiv.yeremenko.sofftapp.client;
+
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
+
+public class MyGWTApp implements EntryPoint {
+	private VerticalPanel mainPanel = new VerticalPanel();
+	private HorizontalPanel addPanel = new HorizontalPanel();
+	private Button addImageButton = new Button("Get Image");
+	private TextBox newSymbolTextBox = new TextBox();
+	private Image image = new Image();
+	private final String URL = "https://apod.nasa.gov/apod/image/1709/m81_colombari_1080c.jpg";
+	
+	public void onModuleLoad() {
+		addPanel.add(addImageButton);
+		mainPanel.add(addPanel);
+		RootPanel.get("imageList").add(mainPanel);
+		newSymbolTextBox.setFocus(true);
+		
+		addImageButton.addClickHandler(new ClickHandler() {
+		      public void onClick(ClickEvent event) {
+		        addImage(); 
+		      }
+		    });
+	}
+	
+	private void addImage() {
+	    // TODO Auto-generated method stub
+	}
+}
